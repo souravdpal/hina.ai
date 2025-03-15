@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HINA AI - Installation Guide</title>
+    <link rel="stylesheet" href="install.css">
+</head>
+<body>
+    <h1>HINA AI - Installation Guide</h1>
+    <p>Welcome! Follow this guide to set up HINA AI on your system. You can either use it **online** (nothing to install) or **offline** (requires installation).</p>
+    
+    <h2>Step 1: Choose Your OS</h2>
+    <button onclick="showGuide('windows')">Windows Guide</button>
+    <button onclick="showGuide('linux')">Linux Guide</button>
+    
+    <div id="windows-guide" class="guide" style="display: none;">
+        <h2>🔹 Windows Installation</h2>
+        <p>If you want to use HINA AI offline, follow these steps:</p>
+        <ol>
+            <li>🔹 **Download Ollama**: Go to the <a href="https://ollama.com" target="_blank">official Ollama website</a> and install it.</li>
+            <li>🔹 **Open PowerShell** and check if Ollama is installed by running:
+                <pre><code>ollama --version</code></pre>
+            </li>
+            <li>🔹 **Download an AI model** (Choose based on your PC's capability):  
+                <ul>
+                    <li>For most users (medium size):  
+                        <pre><code>ollama pull llama3</code></pre>  
+                    </li>
+                    <li>For high-end PCs (advanced AI):  
+                        <pre><code>ollama pull deepseek-7b</code></pre>  
+                    </li>
+                </ul>
+            </li>
+            <li>🔹 **Run the AI model**:  
+                <pre><code>ollama run llama3</code></pre>
+            </li>
+        </ol>
+    </div>
+    
+    <div id="linux-guide" class="guide" style="display: none;">
+        <h2>🔹 Linux Installation</h2>
+        <p>For Linux users, follow these steps:</p>
+        <ol>
+            <li>🔹 **Install Ollama** (Run this command in the terminal):  
+                <pre><code>curl -fsSL https://ollama.ai/install.sh | sh</code></pre>
+            </li>
+            <li>🔹 **Verify installation**:  
+                <pre><code>ollama --version</code></pre>
+            </li>
+            <li>🔹 **Download an AI model** (Choose based on your PC's power):  
+                <ul>
+                    <li>For normal use:  
+                        <pre><code>ollama pull llama3</code></pre>  
+                    </li>
+                    <li>For powerful machines:  
+                        <pre><code>ollama pull deepseek-7b</code></pre>  
+                    </li>
+                </ul>
+            </li>
+            <li>🔹 **Run AI**:  
+                <pre><code>ollama run llama3</code></pre>
+            </li>
+        </ol>
+    </div>
+    
+    <h2>Step 2: Configure AI Personality</h2>
+    <p>Now, you can customize how HINA AI interacts with you by setting up a JSON file.</p>
+    
+    <button onclick="downloadConfig()">📥 Download JSON Config</button>
+    
+    <h3>Step 3: How to Use JSON Configuration</h3>
+    <p>After downloading the <code>config.json</code> file, place it in the same folder as your AI setup.</p>
+    <p>To modify the AI’s personality, open the file in Notepad (Windows) or a text editor (Linux) and change the values.</p>
+
+    <script>
+        function showGuide(os) {
+            document.getElementById('windows-guide').style.display = (os === 'windows') ? 'block' : 'none';
+            document.getElementById('linux-guide').style.display = (os === 'linux') ? 'block' : 'none';
+        }
+        
+        function downloadConfig() {
+            const data = {
+                "name": "HINA AI",
+                "personality": "Friendly and helpful",
+                "voice": "Calm and natural",
+                "response_speed": "Medium"
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = "config.json";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
