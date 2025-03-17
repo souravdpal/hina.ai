@@ -1,14 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Script Loaded ✅");
 
-    // Dark Mode Toggle
-    let darkModeToggle = document.getElementById("darkModeToggle");
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener("click", function () {
-            document.body.classList.toggle("light-mode");
-        });
-    }
-
     // Chat Elements
     let sendButton = document.getElementById("sendBtn");
     let inputField = document.getElementById("chatInput");
@@ -46,9 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // Append Loading Indicator
+        let loadingDiv = document.createElement("div");
+        loadingDiv.classList.add("loading-msg");
+        loadingDiv.innerText = "HINA is typing...";
+        chatContainer.appendChild(loadingDiv);
+
         try {
             let response = await fetch("https://api-inference.huggingface.co/models/gpt2", {
-
                 method: "POST",
                 headers: {
                     "Authorization": "Bearer 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",
@@ -60,12 +57,16 @@ document.addEventListener("DOMContentLoaded", function () {
             let data = await response.json();
             let aiResponse = data[0]?.generated_text || "Error: No response from AI.";
 
+            // Remove Loading Indicator
+            chatContainer.removeChild(loadingDiv);
+
             // Append AI Response
             let aiMessageDiv = document.createElement("div");
             aiMessageDiv.classList.add("ai-msg");
             aiMessageDiv.innerText = "HINA: " + aiResponse;
             chatContainer.appendChild(aiMessageDiv);
         } catch (error) {
+            chatContainer.removeChild(loadingDiv);
             let errorDiv = document.createElement("div");
             errorDiv.classList.add("ai-msg");
             errorDiv.innerText = "Error: API request failed.";
